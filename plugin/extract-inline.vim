@@ -44,8 +44,10 @@ function! ExtractLocalVariable()
 
   let l:var_name = input('Variable name: ')
 
-  execute 'normal! O' . s:GetVarTemplate(l:var_name, l:var_value)
-  call <SID>ExecuteKeepingCursorPosition('.+1,$s/' . l:var_value . '/' . l:var_name . '/gc')
+  if len(l:var_name)
+    execute 'normal! O' . s:GetVarTemplate(l:var_name, l:var_value)
+    call <SID>ExecuteKeepingCursorPosition('.+1,$s/' . l:var_value . '/' . l:var_name . '/gc')
+  endif
 endfunction
 
 function! InlineLocalVariable()

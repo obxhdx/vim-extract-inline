@@ -13,6 +13,11 @@ let s:var_patterns = {
       \   },
       \ }
 
+function! s:PrintError(msg)
+  let prefix = '[vim-exctract-line]'
+  echohl ErrorMsg | echon prefix.' '.a:msg | echohl None
+endfunction
+
 function! s:ExecuteKeepingCursorPosition(command)
   let l:saved_search_pattern = @/
   let l:saved_line = line('.')
@@ -38,8 +43,15 @@ endfunction
 
 function! ExtractLocalVariable()
   let l:temp = @s
-  normal! gv"sy
-  let l:var_value = substitute(substitute(@s, '\n', '', 'g'), '\([][/]\)', '\\\1', 'g')
+  silent normal! gv"sy
+
+  let @s = substitute(@s, '\n$', '', 'g')
+  if @s =~ '\n'
+    call s:PrintError('Line breaks not supported')
+    return
+  endif
+
+  let l:var_value = substitute(@s, '\([][/]\)', '\\\1', 'g')
   let @s = l:temp
 
   let l:var_name = input('Variable name: ')

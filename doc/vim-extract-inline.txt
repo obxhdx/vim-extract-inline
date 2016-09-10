@@ -1,0 +1,23 @@
+*extract-inline.txt*  Extract code into variables. Inline existing
+variables.
+
+MAPPINGS                                  *extract-inline-commands*
+
+                                   *<Plug>(extract-local-variable)*
+<Leader>e                Extract selected text into a variable. A
+                         dialog will appear in the command line
+                         asking for the variable name.
+
+                                    *<Plug>(inline-local-variable)*
+<Leader>i                Inline all occurrences of the variable
+                         under cursor with its value.
+
+OPTIONS                                    *extract-inline-options*
+
+                        *g:extract_inline#disable_default_mappings*
+
+Disables auto highlighting for the specified filetypes: >
+
+	let g:extract_inline#disable_default_mappings = 1 (default: 0)
+
+vim:tw=78:et:ft=help:norl:

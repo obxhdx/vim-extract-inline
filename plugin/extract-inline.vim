@@ -41,7 +41,7 @@ function! s:GetVarPattern(var_name)
   return printf(l:var_template, a:var_name)
 endfunction
 
-function! ExtractLocalVariable()
+function! s:ExtractLocalVariable()
   let l:temp = @s
   silent normal! gv"sy
 
@@ -62,7 +62,7 @@ function! ExtractLocalVariable()
   endif
 endfunction
 
-function! InlineLocalVariable()
+function! s:InlineLocalVariable()
   let l:var_name = expand('<cword>')
   let l:regexd_pattern = s:GetVarPattern(l:var_name)
 
@@ -78,8 +78,8 @@ function! InlineLocalVariable()
   endif
 endfunction
 
-vnoremap <Plug>(extract-local-variable)   :call ExtractLocalVariable()<CR>
-nnoremap <Plug>(inline-local-variable)    :call InlineLocalVariable()<CR>
+vnoremap <Plug>(extract-local-variable)   :call <SID>ExtractLocalVariable()<CR>
+nnoremap <Plug>(inline-local-variable)    :call <SID>InlineLocalVariable()<CR>
 
 if get(g:, 'extract_inline#disable_default_mappings')
   finish

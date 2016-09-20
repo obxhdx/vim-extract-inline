@@ -1,4 +1,4 @@
-# vim-extract-inline
+# vim-extract-inline (experimental)
 
 Extract code into variables. Inline existing variables.
 

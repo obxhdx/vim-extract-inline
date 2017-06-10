@@ -14,7 +14,7 @@ Just use your preferred package manager ([vim-plug](https://github.com/junegunn/
 
 ## Usage
 
-See [documentation](https://github.com/obxhdx/vim-extract-inline/blob/master/doc/extract-inline.txt).
+See [documentation](https://github.com/obxhdx/vim-extract-inline/blob/master/doc/vim-extract-inline.txt).
 
 ## License
 

@@ -67,16 +67,23 @@ function! s:InlineLocalVariable()
   let l:var_name = expand('<cword>')
   let l:regexd_pattern = s:GetVarPattern(l:var_name)
 
-  if search(regexd_pattern) > 0
-    let l:result = matchlist(getline('.'), l:regexd_pattern)
-    let l:var_name = l:result[1]
-    let l:var_value = substitute(l:result[2], '\(&:\)', '\\\1', 'g')
-
-    call <SID>ExecuteKeepingCursorPosition('.+1,$s/\C\<' . l:var_name . '\>/' . l:var_value . '/gc')
-    execute 'normal! dd'
-  else
+  if search(regexd_pattern) == 0
     echohl ErrorMsg | echo 'Unable to find where variable "'.l:var_name.'" was declared.' | echohl None
+    return
   endif
+
+  let l:result = matchlist(getline('.'), l:regexd_pattern)
+  let l:var_name = l:result[1]
+
+  let l:var_value = substitute(l:result[2], '\(&:\)', '\\\1', 'g')
+  let l:escaped_var_value = substitute(l:var_value, '\([][/]\)', '\\\1', 'g')
+
+  try
+    call <SID>ExecuteKeepingCursorPosition('.+1,$s/\C\<' . l:var_name . '\>/' . l:escaped_var_value . '/gc')
+    execute 'normal! dd'
+  catch
+    echohl ErrorMsg | echo 'Error inlining variable "'.l:var_name.'": '.v:exception | echohl None
+  endtry
 endfunction
 
 vnoremap <Plug>(extract-local-variable)   :call <SID>ExtractLocalVariable()<CR>

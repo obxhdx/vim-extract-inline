@@ -67,6 +67,10 @@ function! s:InlineLocalVariable()
   let l:var_name = expand('<cword>')
   let l:regexd_pattern = s:GetVarPattern(l:var_name)
 
+  if len(l:var_name) == 0
+    return
+  endif
+
   if search(regexd_pattern) == 0
     echohl ErrorMsg | echo 'Unable to find where variable "'.l:var_name.'" was declared.' | echohl None
     return

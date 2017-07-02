@@ -51,14 +51,15 @@ function! s:ExtractLocalVariable()
     return
   endif
 
-  let l:var_value = substitute(@s, '\([][/]\)', '\\\1', 'g')
+  let l:var_value = @s
   let @s = l:temp
 
   let l:var_name = input('Variable name: ')
 
   if len(l:var_name)
     execute 'normal! O' . s:GetVarTemplate(l:var_name, l:var_value)
-    call <SID>ExecuteKeepingCursorPosition('.+1,$s/' . l:var_value . '/' . l:var_name . '/gc')
+    let l:escaped_var_value = substitute(l:var_value, '\([][/]\)', '\\\1', 'g')
+    call <SID>ExecuteKeepingCursorPosition('.+1,$s/' . l:escaped_var_value . '/' . l:var_name . '/gc')
   endif
 endfunction
 
